@@ -4,7 +4,7 @@ Chord Transposer
 Javascript/TypeScript library for transposing musical chords within arbitrary
 text.
 
-This is a fork from ddycai/chord-transposer with included typescript type definitions.
+This is a fork from [ddycai/chord-transposer](https://github.com/ddycai/chord-transposer) with included TypeScript type definitions and a sligthly improved regex.
 
 ## Usage
 
