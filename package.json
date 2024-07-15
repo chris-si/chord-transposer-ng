@@ -1,6 +1,6 @@
 {
   "name": "@chris-si/chord-transposer-ng",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "Transposes musical chords in arbitrary text.",
   "type": "module",
   "main": "dist/index.js",
