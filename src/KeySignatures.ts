@@ -1,119 +1,82 @@
-import { Enum, EnumValue } from 'ts-enums'
+import { Enum, EnumValue } from 'ts-enums';
+import XRegExp from 'xregexp';
 import { Chord, MINOR_PATTERN, ROOT_PATTERN } from './Chord';
-import * as XRegExp from 'xregexp';
+XRegExp.uninstall('namespacing'); // This is a workaround for a breaking change in XRegExp 5.0.0
 
 // Chromatic scale starting from C using flats only.
-const FLAT_SCALE = [
-  "C",
-  "Db",
-  "D",
-  "Eb",
-  "E",
-  "F",
-  "Gb",
-  "G",
-  "Ab",
-  "A",
-  "Bb",
-  "Cb",
-];
+const FLAT_SCALE = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'Cb'];
 
 // Chromatic scale starting from C using sharps only.
-const SHARP_SCALE = [
-  "C",
-  "C#",
-  "D",
-  "D#",
-  "E",
-  "F",
-  "F#",
-  "G",
-  "G#",
-  "A",
-  "A#",
-  "B",
-];
+const SHARP_SCALE = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 
 // Chromatic scale for F# major which includes E#.
-export const F_SHARP_SCALE = SHARP_SCALE.map(note => note === "F" ? "E#" : note);
+export const F_SHARP_SCALE = SHARP_SCALE.map((note) => (note === 'F' ? 'E#' : note));
 
 // Chromatic scale for C# major which includes E# and B#.
-export const C_SHARP_SCALE = F_SHARP_SCALE.map(note => note === "C" ? "B#" : note);
+export const C_SHARP_SCALE = F_SHARP_SCALE.map((note) => (note === 'C' ? 'B#' : note));
 
 // Chromatic scale for Gb major which includes Cb.
-export const G_FLAT_SCALE = FLAT_SCALE.map(note => note === "B" ? "Cb" : note);
+export const G_FLAT_SCALE = FLAT_SCALE.map((note) => (note === 'B' ? 'Cb' : note));
 
 // Chromatic scale for Cb major which includes Cb and Fb.
-export const C_FLAT_SCALE = G_FLAT_SCALE.map(note => note === "E" ? "Fb" : note);
+export const C_FLAT_SCALE = G_FLAT_SCALE.map((note) => (note === 'E' ? 'Fb' : note));
 
-const KEY_SIGNATURE_REGEX = XRegExp(`${ROOT_PATTERN}(${MINOR_PATTERN})?`)
+const KEY_SIGNATURE_REGEX = XRegExp(`${ROOT_PATTERN}(${MINOR_PATTERN})?`);
 
-export enum KeyType { FLAT, SHARP }
+export enum KeyType {
+  FLAT,
+  SHARP,
+}
 
 export class KeySignature extends EnumValue {
-  constructor(public majorKey: string,
+  constructor(
+    public majorKey: string,
     public relativeMinor: string,
     public keyType: KeyType,
     public rank: number,
-    public chromaticScale: string[]) {
+    public chromaticScale: string[]
+  ) {
     super(majorKey);
   }
 }
 
 /** Enum for each key signature. */
 export class KeySignatureEnum extends Enum<KeySignature> {
-  C: KeySignature =
-    new KeySignature('C', 'Am', KeyType.SHARP, 0, SHARP_SCALE);
+  C: KeySignature = new KeySignature('C', 'Am', KeyType.SHARP, 0, SHARP_SCALE);
 
-  Db: KeySignature =
-    new KeySignature('Db', 'Bbm', KeyType.FLAT, 1, FLAT_SCALE);
+  Db: KeySignature = new KeySignature('Db', 'Bbm', KeyType.FLAT, 1, FLAT_SCALE);
 
-  D: KeySignature =
-    new KeySignature('D', 'Bm', KeyType.SHARP, 2, SHARP_SCALE);
+  D: KeySignature = new KeySignature('D', 'Bm', KeyType.SHARP, 2, SHARP_SCALE);
 
-  Eb: KeySignature =
-    new KeySignature('Eb', 'Cm', KeyType.FLAT, 3, FLAT_SCALE);
+  Eb: KeySignature = new KeySignature('Eb', 'Cm', KeyType.FLAT, 3, FLAT_SCALE);
 
-  E: KeySignature =
-    new KeySignature('E', 'C#m', KeyType.SHARP, 4, SHARP_SCALE);
+  E: KeySignature = new KeySignature('E', 'C#m', KeyType.SHARP, 4, SHARP_SCALE);
 
-  F: KeySignature =
-    new KeySignature('F', 'Dm', KeyType.FLAT, 5, FLAT_SCALE);
+  F: KeySignature = new KeySignature('F', 'Dm', KeyType.FLAT, 5, FLAT_SCALE);
 
-  Gb: KeySignature =
-    new KeySignature('Gb', 'Ebm', KeyType.FLAT, 6, G_FLAT_SCALE);
+  Gb: KeySignature = new KeySignature('Gb', 'Ebm', KeyType.FLAT, 6, G_FLAT_SCALE);
 
-  Fsharp: KeySignature =
-    new KeySignature('F#', 'D#m', KeyType.SHARP, 6, F_SHARP_SCALE);
+  Fsharp: KeySignature = new KeySignature('F#', 'D#m', KeyType.SHARP, 6, F_SHARP_SCALE);
 
-  G: KeySignature =
-    new KeySignature('G', 'Em', KeyType.SHARP, 7, SHARP_SCALE);
+  G: KeySignature = new KeySignature('G', 'Em', KeyType.SHARP, 7, SHARP_SCALE);
 
-  Ab: KeySignature =
-    new KeySignature('Ab', 'Fm', KeyType.FLAT, 8, FLAT_SCALE);
+  Ab: KeySignature = new KeySignature('Ab', 'Fm', KeyType.FLAT, 8, FLAT_SCALE);
 
-  A: KeySignature =
-    new KeySignature('A', 'F#m', KeyType.SHARP, 9, SHARP_SCALE);
+  A: KeySignature = new KeySignature('A', 'F#m', KeyType.SHARP, 9, SHARP_SCALE);
 
-  Bb: KeySignature =
-    new KeySignature('Bb', 'Gm', KeyType.FLAT, 10, FLAT_SCALE);
+  Bb: KeySignature = new KeySignature('Bb', 'Gm', KeyType.FLAT, 10, FLAT_SCALE);
 
-  B: KeySignature =
-    new KeySignature('B', 'G#m', KeyType.SHARP, 11, SHARP_SCALE);
+  B: KeySignature = new KeySignature('B', 'G#m', KeyType.SHARP, 11, SHARP_SCALE);
 
   // Unconventional key signatures:
 
-  Csharp: KeySignature =
-    new KeySignature('C#', 'A#m', KeyType.SHARP, 1, C_SHARP_SCALE);
+  Csharp: KeySignature = new KeySignature('C#', 'A#m', KeyType.SHARP, 1, C_SHARP_SCALE);
 
-  Cb: KeySignature =
-    new KeySignature('Cb', 'Abm', KeyType.FLAT, 11, C_FLAT_SCALE);
+  Cb: KeySignature = new KeySignature('Cb', 'Abm', KeyType.FLAT, 11, C_FLAT_SCALE);
 
-  Dsharp: KeySignature =
-    new KeySignature('D#', '', KeyType.SHARP, 3, SHARP_SCALE);
+  Dsharp: KeySignature = new KeySignature('D#', '', KeyType.SHARP, 3, SHARP_SCALE);
 
-  Gsharp: KeySignature =
-    new KeySignature('G#', '', KeyType.SHARP, 8, SHARP_SCALE);
+  Gsharp: KeySignature = new KeySignature('G#', '', KeyType.SHARP, 8, SHARP_SCALE);
 
   keySignatureMap: Map<string, KeySignature> = new Map();
   rankMap: Map<number, KeySignature> = new Map();

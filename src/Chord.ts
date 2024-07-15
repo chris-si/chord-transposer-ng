@@ -1,4 +1,5 @@
-import * as XRegExp from 'xregexp';
+import XRegExp from 'xregexp';
+XRegExp.uninstall('namespacing'); // This is a workaround for a breaking change in XRegExp 5.0.0
 
 /**
  * The rank for each possible chord. Rank is the distance in semitones from C.
@@ -47,7 +48,7 @@ const MINOR_SUFFIX_REGEX = XRegExp(`^${MINOR_PATTERN}.*$`);
  * bass: C
  */
 export class Chord {
-  constructor(public root: string, public suffix?: string, public bass?: string) { }
+  constructor(public root: string, public suffix?: string, public bass?: string) {}
 
   toString(): string {
     if (this.bass) {
@@ -58,7 +59,10 @@ export class Chord {
   }
 
   isMinor(): boolean {
-    return MINOR_SUFFIX_REGEX.test(this.suffix);
+    if (this.suffix) {
+      return MINOR_SUFFIX_REGEX.test(this.suffix);
+    }
+    return false;
   }
 
   static parse(token: string): Chord {
@@ -66,7 +70,11 @@ export class Chord {
       throw new Error(`${token} is not a valid chord`);
     }
     const result = XRegExp.exec(token, CHORD_REGEX);
-    return new Chord(result.root, result.suffix, result.bass);
+    if (result) {
+      return new Chord(result.root, result.suffix, result.bass);
+    } else {
+      throw new Error('Invalid chord format');
+    }
   }
 }
 
